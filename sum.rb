@@ -77,19 +77,25 @@ class Summer < ArrayMagicBase
 		}
 		results
 	end
-
+	def sum input
+		total 	= 0
+		output	= false
+		input.each{|i| 
+			output 	= predict total, i
+			total 	= output.to_i
+		}
+		output
+	end
 end
 
+### Test###
 machine 			= Summer.new
 machine.maxError	= 0.0000
 machine.train
-
-### Test###
-
+COUNT = 10
 (0..10).each{|idx|
-	val1	=  rand(100000)
-	val2	=  rand(100000)
-	result = machine.predict val1, val2 
-	result.print val1, val2, (val1 + val2)
-	exit
+	vals	= (0...COUNT).map{ rand(100000)}
+	summed = machine.sum vals
+	puts	"\t" + vals.sum.to_s(2)
+	puts	"\t" +summed.bits.map(&:to_s).join
 }

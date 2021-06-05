@@ -36,6 +36,9 @@ class BinNumber
 		end
 		@bits.clone
 	end
+	def to_i
+		bits.map(&:to_s).join.to_i(2)
+	end
 	def print val1, val2, target
 		puts "1:\t" + val1.to_s(2)
 		puts "2:\t" + val2.to_s(2)
