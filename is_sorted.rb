@@ -4,7 +4,7 @@ machine 			= IsSorted.new
 machine.nInputs 	= 128
 machine.nSamples	= 25000
 machine.iterations	= 50
-machine.limit		= 1000000
+# machine.limit		= 1000000
 machine.train
 machine.test
 
