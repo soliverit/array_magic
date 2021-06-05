@@ -15,14 +15,18 @@ class ArrayMagicBase
 		@silent			= false
 		@nInputs		= DEFAULT_N_INPUTS
 	end
+	def train
+		return if @machine
+		prepareData
+		doTraining
+	end
+	def test
+		raise "ArrayMagicBase:test hasn't been overridden"
+	end
 	def prepareData
 		raise "ArrayMagicBase:prepareData hasn't been overridden"
 	end
 protected 
-	def preTrain
-		prepareData
-		describe unless @silent
-	end
 	def describe
 		puts """
 		\t##
@@ -32,5 +36,8 @@ protected
 		\t# train/test ratio: #{@trainTestRatio}
 		\t##
 		"""
+	end
+	def doTraining
+		raise "ArrayMagicBase:doTraining hasn't been overridden."
 	end
 end
