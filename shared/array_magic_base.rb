@@ -89,4 +89,14 @@ class ArrayMagicBase
 	def doTraining #Abstract
 		raise "ArrayMagicBase:doTraining hasn't been overridden."
 	end
+	##
+	# Make a prediction.
+	#
+	# A placeholder method for turning inputs into a prediction. By
+	# default, the method is for "fast-ANN" with the "run" method. Other
+	# models have alternative function names and single/multii outputs.
+	##
+	def predict inputs #Virtual
+		@machine.run(inputs)
+	end
 end

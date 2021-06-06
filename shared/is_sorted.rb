@@ -2,6 +2,23 @@
 require "ruby-fann"
 #Project
 require_relative "./array_magic_base.rb"
+##
+# Is this [integer] array sorted?
+#
+# A fast-ANN model for determining whether an array of integers is sorted
+#
+# Method:
+#	- Generate @nSamples train/test data split @trainTestRatio:
+#		- Generate an integer array of length @nInputs
+#		- Clone and sort the array for the test data
+#		- If the sample number (0 - @nSamples) is even:
+#			- Sort the integer array
+#	- Train the machine
+#	- That's it, predict stuff. Pass arrays of @nInputs length#
+#
+#	TODO:	@nInputs constrained sucks. Many machines or high @nInputs 
+#			and pad input arrays to whatever length?
+##
 class IsSorted < ArrayMagicBase
 	##
 	# Prepare @xData and @yData for training / testing
@@ -20,7 +37,7 @@ class IsSorted < ArrayMagicBase
 			# Create sample an add it to the complete X dataset
 			##
 			# Generate the sample. Will rarely if ever generaate a sorted list
-			record			= (0...@nInputs).map{rand(@limit)}	# 128 list 0 <= val <= 1,000,000
+			record			= (0...@nInputs).map{rand(@limit) - rand(@limit)}	# 128 list 0 <= val <= 1,000,000
 			# Balance sorted labels with unsorted by sorting half of the samples
 			record			= record.sort{|a,b| a <=> b} if idx % 2 == 0			# Make half the data sorted
 			# Add the record to the complete X dataset
@@ -41,7 +58,7 @@ class IsSorted < ArrayMagicBase
 		# Train
 		machine	= RubyFann::Standard.new(num_inputs: @nInputs, hidden_neurons:[2], num_outputs: 1)
 		machine.train_on_data(train, @iterations, @reportSteps, @maxError) 
-		
+		# Remember to send the machine back to the caller
 		machine
 	end
 	##
@@ -81,5 +98,4 @@ class IsSorted < ArrayMagicBase
 		#Print the results
 		puts "Iterations: #{@iterations}\nMAX_MSE:    #{@maxError}\n\t#{winLoss}" # proof
 	end
-	
 end

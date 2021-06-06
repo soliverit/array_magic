@@ -118,17 +118,17 @@ class Summer < ArrayMagicBase
 		# Iterate over bit input values' bit pairs and add their predicted 
 		# bool state to the output BinNumber
 		##
-		results		= BinNumber.new
+		result		= BinNumber.new
 		(0...val1Binary.length).each{|idx|
 			# Inverted the index so we're working with 2^idx from smallest to largest
 			idx 		= val1Binary.length - 1 -idx
 			# Do prediction  / classify
 			prediction 	= @machine.run([val1Binary[idx], val2Binary[idx]]).map{|val| val.round.to_i}
 			# Use prediction/classification to add a new bit to the binary number (BinNumber)
-			results.pushBit prediction[0], prediction[1]
+			result.pushBit prediction[0], prediction[1]
 		}
 		# Send it back to the caller
-		results
+		result
 	end
 	##
 	# Sum an array's value
@@ -153,5 +153,45 @@ class Summer < ArrayMagicBase
 		}
 		# Send it back to the caller
 		output
+	end 
+	##
+	# !Overridden (Abstract'ish. Only needs overwritten if you need it)
+	#
+	# Run a few tests and print the results to the console
+	##
+	def test
+		##
+		# Do 10 test summing arrays with 10 random values
+		##
+		nTests			= 3
+		valuesLength	= 10
+		(0..nTests).each{|testIDX|
+			##
+			# Each test array has valuesLength values. The limit
+			# is arbitrary.
+			##
+			vals		= (0...valuesLength).map{ rand(10000000000)}
+			sumLength	=  vals.sum.to_s.length
+			# Do sum
+			summed 	= sum vals
+			# Divide and conquer - test numbers
+			puts "\n\t=== Test: #{testIDX} ==="
+			vals.each_with_index{|val, idx|
+				##
+				# Pad out the base 10 value so the numbers align like number...
+				##
+				strVal 			= val.to_s
+				while strVal.length < sumLength
+					strVal = " " + strVal
+				end
+				puts idx.to_s + ":\t" + 
+					padBitArray(val.to_s(2).split("").map(&:to_i), summed.bits.length).map(&:to_s).join + 
+					" | " + strVal
+			}
+			# Print the target and generated sums
+			puts "\t---------------------------------"
+			puts "=:\t" + vals.sum.to_s(2) + " | " + vals.sum.to_s
+			puts "Y:\t" +summed.bits.map(&:to_s).join +  " | " + summed.to_i.to_s
+		}
 	end
 end
