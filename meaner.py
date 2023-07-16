@@ -1,0 +1,1 @@
+from python.array_magic_base import ArrayMagicBase
