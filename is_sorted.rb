@@ -1,4 +1,4 @@
-require "./shared/is_sorted.rb"
+require "./ruby/is_sorted.rb"
 
 machine 			= IsSorted.new
 machine.nInputs 	= 128

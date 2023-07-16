@@ -2,7 +2,7 @@
 # Includes
 ##
 # Native
-require "./shared/summer.rb"
+require "./ruby/summer.rb"
 
 ### Test###
 machine 			= Summer.new

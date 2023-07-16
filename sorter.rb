@@ -2,7 +2,7 @@
 # Includes
 ##
 # Project
-require "./shared/sorter.rb"
+require "./ruby/sorter.rb"
 ##
 # Do stuff here
 ##
